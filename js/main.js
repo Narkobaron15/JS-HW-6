@@ -3,5 +3,7 @@ console.log(prod);
 
 let tableManager = new Manipulator('data');
 tableManager.Insert(prod);
+tableManager.Insert(prod);
 
+tableManager.Delete(prod);
 tableManager.Delete(prod);

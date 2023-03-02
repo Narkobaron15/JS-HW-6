@@ -32,12 +32,15 @@ class Manipulator {
             throw new Error("Product must be an instance of the Product class");
         }
 
+        // if (this.#products.find())
+
         if (this.#products.length === 0) {
             this.#table.innerHTML = '';
         }
 
+
         this.#products.push(product);
-        product.id =  ++Manipulator.#count;
+        product.id = ++Manipulator.#count;
         this.#Insertion(product)
     }
 
@@ -45,7 +48,7 @@ class Manipulator {
         console.log(product.id);
         this.#table.deleteRow(product.id - 1);
         this.#products.splice(product.id - 1, 1)
-        
+
         if (this.#products.length === 0) {
             this.#Empty();
         }
