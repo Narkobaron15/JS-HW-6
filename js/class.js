@@ -15,12 +15,12 @@ class Manipulator {
         this.#Empty();
     }
 
-    get tableId() {
-        return this.#tableId;
-    }
-
     get #table() {
         return document.getElementById(this.#tableId);
+    }
+
+    get #tablerows() {
+        return Array.from(this.#table.rows);
     }
 
     get products() {
@@ -43,14 +43,19 @@ class Manipulator {
         this.#Insertion(product)
     }
 
-    Delete(product) {
-        console.log(product.id);
-        this.#table.deleteRow(product.id - 1);
-        this.#products.splice(product.id - 1, 1)
+    Delete(id) {
+        const rowID = this.#tablerows.findIndex(row => row.cells[0].innerHTML === id.toString());
+        
+        this.#table.deleteRow(rowID);
+        this.#products.splice(id - 1, 1)
 
         if (this.#products.length === 0) {
             this.#Empty();
         }
+    }
+
+    getId(product) {
+        return this.#products.indexOf(product);
     }
 
     #Insertion(value) {
@@ -140,7 +145,6 @@ class Product {
 
     set date(value) {
         const date = new Date(value);
-        console.log(date.toDateString());
         if (isNaN(date.getTime())) {
             throw new Error("The field date must be a valid date");
         }
@@ -181,6 +185,6 @@ class Product {
     }
 
     clone() {
-        return new Product(this.name, this.price, this.date, this.description, this.type, this.quantity);
+        return new Product(this.name, this.price, this.type, this.quantity, this.date, this.description);
     }
 }

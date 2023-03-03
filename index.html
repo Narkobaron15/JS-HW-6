@@ -10,10 +10,10 @@
 
 <body>
     <div class="container-xl my-2">
-        <div class="mt-4 my-3">
+        <div class="d-flex align-items-center mt-4 my-3">
             <!-- Datalist -->
             <label for="searchInput" class="me-3">Search:</label>
-            <input class="w-50" id="searchInput" type="text" placeholder="Try to type in...">
+            <input class="flex-grow-1" id="searchInput" type="text" placeholder="Try to type in...">
             <button id="ClearBtn" class="text-danger ms-3">X</button>
         </div>
         <hr>
@@ -23,6 +23,8 @@
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col">Date</th>
                     <th scope="col">Description</th>
                 </tr>
@@ -30,6 +32,33 @@
             <tbody id="data"></tbody>
         </table>
         <hr>
+        <form class="d-flex flex-column justify-content-center">
+            <div class="d-flex my-2">
+                <label for="productName">Product Name:</label>
+                <input class="ms-3" type="text" id="productName" name="productName" placeholder="Enter product name">
+            </div>
+
+            <div class="d-flex my-2">
+                <label for="productPrice">Product Price:</label>
+                <input class="ms-3" type="number" id="productPrice" name="productPrice" placeholder="Enter product price">
+            </div>
+
+            <div class="d-flex my-2">
+                <label for="productDate">Product Date:</label>
+                <input class="ms-3" type="date" id="productDate" name="productDate" placeholder="Enter product date">
+            </div>
+
+            <div class="d-flex my-2 align-items-center">
+                <label for="productDescription">Product Description:</label>
+                <textarea class="ms-3" id="productDescription" name="productDescription"
+                    placeholder="Enter product description"></textarea>
+            </div>
+
+            <div class="d-flex my-2">
+                <button type="submit" id="confirmButton">Confirm</button>
+            </div>
+        </form>
+
     </div>
 
     <script src="./js/class.js"></script>
