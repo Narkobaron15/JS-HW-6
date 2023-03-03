@@ -45,7 +45,7 @@ class Manipulator {
 
     Delete(id) {
         const rowID = this.#tablerows.findIndex(row => row.cells[0].innerHTML === id.toString());
-        
+
         this.#table.deleteRow(rowID);
         this.#products.splice(id - 1, 1)
 
