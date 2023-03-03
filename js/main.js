@@ -1,6 +1,5 @@
 const tableManager = new Manipulator('data');
-
-const printError = (msg = '') => fields.errorField.innerHTML = msg;
+let product = new Product();
 
 const buttons = {
     clearBtn: document.getElementById('clearBtn'),
@@ -13,45 +12,50 @@ const fields = {
     qtyField: document.getElementById('productQty'),
     dateField: document.getElementById('productDate'),
     descField: document.getElementById('productDescription'),
+};
+const specialFields = {
     errorField: document.getElementById('ErrorCaption'),
     searchField: document.getElementById('searchInput'),
-};
+}
 
-let product = new Product();
+
+const printError = (msg = '') => specialFields.errorField.innerHTML = msg;
 
 buttons.clearBtn.onclick = () => {
-    searchField.value = '';
+    specialFields.searchField.value = '';
 };
 buttons.confirmButton.onclick = () => {
     try {
         tableManager.Insert(product);
-        product = new();
+        for (const key in fields) {
+            fields[key].value = '';
+        }
     } catch (error) {
         printError(error.message);
     }
 };
-fields.searchField.oninput = () => {
-    tableManager.findAndPublish(fields.searchField.value);
+specialFields.searchField.oninput = () => {
+    tableManager.findAndPublish(specialFields.searchField.value);
 };
 
-fields.nameField.oninput =
-    fields.priceField.oninput =
-    fields.typeField.oninput =
-    fields.qtyField.oninput =
-    fields.dateField.oninput =
-    fields.descField.oninput = () => {
-        printError();
-        try {
-            product.name = fields.nameField.value;
-            product.price = parseFloat(fields.priceField.value);
-            product.type = fields.typeField.value;
-            product.quantity = parseInt(fields.qtyField.value);
-            product.date = fields.dateField.value;
-            product.description = fields.descField.value;
+let fieldOninput = () => {
+    printError();
+    try {
+        product.name = fields.nameField.value;
+        product.price = parseFloat(fields.priceField.value);
+        product.type = fields.typeField.value;
+        product.quantity = parseInt(fields.qtyField.value);
+        product.date = fields.dateField.value;
+        product.description = fields.descField.value;
 
-            buttons.confirmButton.disabled = false;
-        }
-        catch(error) {
-            buttons.confirmButton.disabled = true;
-        }
-    };
+        buttons.confirmButton.disabled = false;
+    }
+    catch (error) {
+        buttons.confirmButton.disabled = true;
+    }
+};
+
+for (const key in fields) {
+    fields[key].oninput = fieldOninput;
+    console.log(fields[key]);
+}
