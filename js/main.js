@@ -3,7 +3,7 @@ btn.onclick = () => {
 
 };
 
-let prod = new Product('123', 12.32, '12/11/2020', 'desc');
+let prod = new Product('123', 12.32, 'default', 123, '12/11/2020', 'desc');
 console.log(prod);
 
 let tableManager = new Manipulator('data');

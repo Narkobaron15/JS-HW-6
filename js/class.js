@@ -1,5 +1,5 @@
 class Manipulator {
-    static #empty = '<tr><td colspan="5" class="text-center">Empty</td></tr>';
+    static #empty = '<tr><td colspan="6" class="text-center">Empty</td></tr>';
     static #count = 0;
 
     #tableId;
@@ -64,6 +64,12 @@ class Manipulator {
         const priceCell = row.insertCell();
         priceCell.innerHTML = value.price;
 
+        const typeCell = row.insertCell();
+        typeCell.innerHTML = value.type;
+
+        const quantityCell = row.insertCell();
+        quantityCell.innerHTML = value.quantity;
+
         const dateCell = row.insertCell();
         dateCell.innerHTML = value.date.toLocaleDateString();
 
@@ -84,98 +90,97 @@ class Product {
     #description;
     #type;
     #quantity;
-  
-    constructor(name, price, date, description, type, quantity) {
-      this.id = 0;
-      this.name = name;
-      this.price = price;
-      this.date = date;
-      this.description = description;
-      this.type = type;
-      this.quantity = quantity;
+
+    constructor(name, price, type, quantity, date, description) {
+        this.id = 0;
+        this.name = name;
+        this.price = price;
+        this.date = date;
+        this.description = description;
+        this.type = type;
+        this.quantity = quantity;
     }
-  
+
     get id() {
-      return this.#id;
+        return this.#id;
     }
-  
+
     set id(value) {
-      if (typeof value !== "number") {
-        throw new Error("ID must be a number");
-      }
-      this.#id = value;
+        if (typeof value !== "number") {
+            throw new Error("ID must be a number");
+        }
+        this.#id = value;
     }
-  
+
     get name() {
-      return this.#name;
+        return this.#name;
     }
-  
+
     set name(value) {
-      if (typeof value !== "string") {
-        throw new Error("Name must be a string");
-      }
-      this.#name = value;
+        if (typeof value !== "string") {
+            throw new Error("Name must be a string");
+        }
+        this.#name = value;
     }
-  
+
     get price() {
-      return this.#price;
+        return this.#price;
     }
-  
+
     set price(value) {
-      if (typeof value !== "number") {
-        throw new Error("Price must be a number");
-      }
-      this.#price = value;
+        if (typeof value !== "number") {
+            throw new Error("Price must be a number");
+        }
+        this.#price = value;
     }
-  
+
     get date() {
-      return this.#date;
+        return this.#date;
     }
-  
+
     set date(value) {
-      const date = new Date(value);
-      console.log(date.toDateString());
-      if (isNaN(date.getTime())) {
-        throw new Error("The field date must be a valid date");
-      }
-      this.#date = date;
+        const date = new Date(value);
+        console.log(date.toDateString());
+        if (isNaN(date.getTime())) {
+            throw new Error("The field date must be a valid date");
+        }
+        this.#date = date;
     }
-  
+
     get description() {
-      return this.#description;
+        return this.#description;
     }
-  
+
     set description(value) {
-      if (typeof value !== "string") {
-        value = '';
-      }
-      this.#description = value;
+        if (typeof value !== "string") {
+            value = '';
+        }
+        this.#description = value;
     }
-  
+
     get type() {
-      return this.#type;
+        return this.#type;
     }
-  
+
     set type(value) {
-      if (typeof value !== "string") {
-        throw new Error("Type must be a string");
-      }
-      this.#type = value;
+        if (typeof value !== "string") {
+            throw new Error("Type must be a string");
+        }
+        this.#type = value;
     }
-  
+
     get quantity() {
-      return this.#quantity;
+        return this.#quantity;
     }
-  
+
     set quantity(value) {
-      if (typeof value !== "number") {
-        throw new Error("Quantity must be a number");
-      }
-      this.#quantity = value;
+        if (typeof value !== "number") {
+            throw new Error("Quantity must be a number");
+        }
+        this.#quantity = value;
     }
-  
+
     clone() {
-      return new Product(this.name, this.price, this.date, this.description, this.type, this.quantity);
+        return new Product(this.name, this.price, this.date, this.description, this.type, this.quantity);
     }
-  }
-  
+}
