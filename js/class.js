@@ -38,6 +38,7 @@ class Manipulator {
             this.#table.innerHTML = '';
         }
 
+        product = product.clone();
 
         this.#products.push(product);
         product.id = ++Manipulator.#count;
@@ -147,5 +148,9 @@ class Product {
             value = '';
         }
         this.#description = value;
+    }
+
+    clone() {
+        return new Product(this.name, this.price, this.date, this.description);
     }
 }
