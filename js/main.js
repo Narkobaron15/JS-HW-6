@@ -1,23 +1,24 @@
-const clearbtn = document.getElementById('ClearBtn');
-const searchfield = document.getElementById('searchInput');
-clearbtn.onclick = () => {
-    searchfield.value = '';
-};
-// searchfield.oninput = () => {
-//     tableManager.findAndPublish
-// }
-
-const prod = new Product('123', 12.32, 'default', 123, '12/11/2020', 'desc'),
-    prod2 = new Product("Widget", 19.99, "Tech", 10, "2022-02-28", "A cool widget");
-
 const tableManager = new Manipulator('data');
-tableManager.Insert(prod);
-tableManager.Insert(prod);
 
-tableManager.Insert(prod2);
-tableManager.Insert(prod);
+const buttons = {
+    clearBtn: document.getElementById('clearBtn'),
+    confirmButton: document.getElementById('confirmButton'),
+}
+const fields = {
+    nameField: document.getElementById('productName'),
+    priceField: document.getElementById('productPrice'),
+    typeField: document.getElementById('productType'),
+    quantityField: document.getElementById('productQty'),
+    dateField: document.getElementById('productDate'),
+    descriptionField: document.getElementById('productDescription'),
+    errorField: document.getElementById('ErrorCaption'),
+    searchField: document.getElementById('searchInput'),
+};
 
-tableManager.Delete(4);
-tableManager.Delete(1);
 
-tableManager.Insert(prod);
+buttons.clearBtn.onclick = () => {
+    searchField.value = '';
+};
+fields.searchField.oninput = () => {
+    tableManager.findAndPublish(fields.searchField.value);
+}

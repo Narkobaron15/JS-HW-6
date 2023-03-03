@@ -1,5 +1,5 @@
 class Manipulator {
-    static #empty = '<tr><td colspan="6" class="text-center">Empty</td></tr>';
+    static #empty = '<tr><td colspan="7" class="text-center">Empty...</td></tr>';
     static #count = 0;
 
     #tableId;
@@ -40,7 +40,7 @@ class Manipulator {
 
         this.#products.push(product);
         product.id = ++Manipulator.#count;
-        this.#Insertion(product)
+        this.#VisualInsertion(product)
     }
 
     Delete(id) {
@@ -58,7 +58,36 @@ class Manipulator {
         return this.#products.indexOf(product);
     }
 
-    #Insertion(value) {
+    findAndPublish(key) {
+        if (typeof key !== 'string') {
+            throw new Error('The key should be a string.');
+        }
+
+        if (key === '') {
+            for (const product of this.#products) {
+                this.#VisualInsertion(product);
+            }
+        }
+        else {
+            let result = [];
+            key = key.trim().toLowerCase();
+
+            for (const product of this.#products) {
+                for(const field of product) {
+                    console.log(field);
+                }
+            }
+            // this.#BulkVisualInsertion(result);
+        }
+    }
+
+    #BulkVisualInsertion(arr) {
+        for (const product of arr) {
+            this.#VisualInsertion(product);
+        }
+    }
+
+    #VisualInsertion(value) {
         const row = this.#table.insertRow();
         const idCell = row.insertCell();
         idCell.innerHTML = value.id;
@@ -178,11 +207,12 @@ class Product {
     }
 
     set quantity(value) {
-        if (typeof value !== "number") {
-            throw new Error("Quantity must be a number");
+        if (!Number.isInteger(value)) {
+            throw new Error("Quantity must be an integer");
         }
         this.#quantity = value;
     }
+
 
     clone() {
         return new Product(this.name, this.price, this.type, this.quantity, this.date, this.description);
