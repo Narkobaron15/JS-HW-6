@@ -25,6 +25,7 @@ buttons.clearBtn.onclick = () => {
 buttons.confirmButton.onclick = () => {
     try {
         tableManager.Insert(product);
+        product = new();
     } catch (error) {
         printError(error.message);
     }
@@ -48,10 +49,9 @@ fields.nameField.oninput =
             product.date = fields.dateField.value;
             product.description = fields.descField.value;
 
-            console.log(product);
-            buttons.confirmButton.setAttribute('disabled', false);
+            buttons.confirmButton.disabled = false;
         }
         catch(error) {
-            console.log(error.message);
+            buttons.confirmButton.disabled = true;
         }
     };
