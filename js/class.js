@@ -32,8 +32,6 @@ class Manipulator {
             throw new Error("Product must be an instance of the Product class");
         }
 
-        // if (this.#products.find())
-
         if (this.#products.length === 0) {
             this.#table.innerHTML = '';
         }
@@ -84,73 +82,100 @@ class Product {
     #price;
     #date;
     #description;
-
-    constructor(name, price, date, description) {
-        this.id = 0;
-        this.name = name;
-        this.price = price;
-        this.date = date;
-        this.description = description;
+    #type;
+    #quantity;
+  
+    constructor(name, price, date, description, type, quantity) {
+      this.id = 0;
+      this.name = name;
+      this.price = price;
+      this.date = date;
+      this.description = description;
+      this.type = type;
+      this.quantity = quantity;
     }
-
+  
     get id() {
-        return this.#id;
+      return this.#id;
     }
-
+  
     set id(value) {
-        if (typeof value !== "number") {
-            throw new Error("ID must be a number");
-        }
-        this.#id = value;
+      if (typeof value !== "number") {
+        throw new Error("ID must be a number");
+      }
+      this.#id = value;
     }
-
+  
     get name() {
-        return this.#name;
+      return this.#name;
     }
-
+  
     set name(value) {
-        if (typeof value !== "string") {
-            throw new Error("Name must be a string");
-        }
-        this.#name = value;
+      if (typeof value !== "string") {
+        throw new Error("Name must be a string");
+      }
+      this.#name = value;
     }
-
+  
     get price() {
-        return this.#price;
+      return this.#price;
     }
-
+  
     set price(value) {
-        if (typeof value !== "number") {
-            throw new Error("Price must be a number");
-        }
-        this.#price = value;
+      if (typeof value !== "number") {
+        throw new Error("Price must be a number");
+      }
+      this.#price = value;
     }
-
+  
     get date() {
-        return this.#date;
+      return this.#date;
     }
-
+  
     set date(value) {
-        const date = new Date(value);
-        console.log(date.toDateString());
-        if (isNaN(date.getTime())) {
-            throw new Error("The field date must be a valid date");
-        }
-        this.#date = date;
+      const date = new Date(value);
+      console.log(date.toDateString());
+      if (isNaN(date.getTime())) {
+        throw new Error("The field date must be a valid date");
+      }
+      this.#date = date;
     }
-
+  
     get description() {
-        return this.#description;
+      return this.#description;
     }
-
+  
     set description(value) {
-        if (typeof value !== "string") {
-            value = '';
-        }
-        this.#description = value;
+      if (typeof value !== "string") {
+        value = '';
+      }
+      this.#description = value;
     }
-
+  
+    get type() {
+      return this.#type;
+    }
+  
+    set type(value) {
+      if (typeof value !== "string") {
+        throw new Error("Type must be a string");
+      }
+      this.#type = value;
+    }
+  
+    get quantity() {
+      return this.#quantity;
+    }
+  
+    set quantity(value) {
+      if (typeof value !== "number") {
+        throw new Error("Quantity must be a number");
+      }
+      this.#quantity = value;
+    }
+  
     clone() {
-        return new Product(this.name, this.price, this.date, this.description);
+      return new Product(this.name, this.price, this.date, this.description, this.type, this.quantity);
     }
-}
+  }
+  
