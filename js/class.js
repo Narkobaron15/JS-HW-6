@@ -54,7 +54,7 @@ class Manipulator {
         }
     }
 
-    getId(product) {
+    getProductId(product) {
         return this.#products.indexOf(product);
     }
 
@@ -125,7 +125,7 @@ class Product {
     #type;
     #quantity;
 
-    constructor(name, price, type, quantity, date, description) {
+    constructor(name = '', price = 0, type = '', quantity = 0, date = new Date(), description = '') {
         this.id = 0;
         this.name = name;
         this.price = price;
