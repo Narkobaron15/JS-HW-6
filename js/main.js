@@ -58,6 +58,4 @@ let fieldOninput = () => {
         buttons.confirmButton.disabled = true;
     }
 };
-iterateFields(fields, field => {
-    field.oninput = fieldOninput;
-});
+iterateFields(fields, field => field.oninput = fieldOninput);
