@@ -1,5 +1,5 @@
 class Manipulator {
-    static #empty = '<tr><td colspan="7" class="text-center">Empty...</td></tr>';
+    static #empty = '<tr><td colspan="8" class="text-center">Empty...</td></tr>';
     static #count = 0;
 
     #tableId;
@@ -73,7 +73,7 @@ class Manipulator {
             key = key.trim().toLowerCase();
 
             for (const product of this.#products) {
-                for(const field of product) {
+                for (const field of product) {
                     console.log(field);
                 }
             }
@@ -109,6 +109,20 @@ class Manipulator {
 
         const descriptionCell = row.insertCell();
         descriptionCell.innerHTML = value.description;
+
+        const deleteCell = row.insertCell();
+        deleteCell.appendChild(this.#GetDelBtnFor(value));
+    }
+
+    #GetDelBtnFor(value) {
+        let btn = document.createElement('button');
+        btn.type = 'button';
+        btn.classList.add('btn', 'btn-light');
+        btn.innerHTML = `
+            <img class="m-1px" src="./images/x-mark-24.png" alt="Cross">
+        `;
+        btn.onclick = () => this.Delete(value.id)
+        return btn;
     }
 
     #Empty() {

@@ -4,6 +4,7 @@ let product = new Product();
 const buttons = {
     clearBtn: document.getElementById('clearBtn'),
     confirmButton: document.getElementById('confirmButton'),
+    resetBtn: document.getElementById('resetBtn'),
 };
 const fields = {
     nameField: document.getElementById('productName'),
@@ -16,7 +17,8 @@ const fields = {
 const specialFields = {
     errorField: document.getElementById('ErrorCaption'),
     searchField: document.getElementById('searchInput'),
-}
+};
+const dropdown = document.getElementById('typeDropdown');
 
 const printError = (msg = '') => specialFields.errorField.innerHTML = msg;
 const iterateFields = (fields, fn) => {
@@ -58,5 +60,4 @@ let fieldOninput = () => {
 };
 iterateFields(fields, field => {
     field.oninput = fieldOninput;
-    console.log(field);
 });
