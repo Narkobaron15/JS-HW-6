@@ -18,8 +18,12 @@ const specialFields = {
     searchField: document.getElementById('searchInput'),
 }
 
-
 const printError = (msg = '') => specialFields.errorField.innerHTML = msg;
+const iterateFields = (fields, fn) => {
+    for (const key in fields) {
+        fn(fields[key]);
+    }
+}
 
 buttons.clearBtn.onclick = () => {
     specialFields.searchField.value = '';
@@ -27,9 +31,7 @@ buttons.clearBtn.onclick = () => {
 buttons.confirmButton.onclick = () => {
     try {
         tableManager.Insert(product);
-        for (const key in fields) {
-            fields[key].value = '';
-        }
+        iterateFields(fields, field => field.value = '');
     } catch (error) {
         printError(error.message);
     }
@@ -54,8 +56,7 @@ let fieldOninput = () => {
         buttons.confirmButton.disabled = true;
     }
 };
-
-for (const key in fields) {
-    fields[key].oninput = fieldOninput;
-    console.log(fields[key]);
-}
+iterateFields(fields, field => {
+    field.oninput = fieldOninput;
+    console.log(field);
+});
