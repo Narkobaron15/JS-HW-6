@@ -10,6 +10,10 @@ class Manipulator {
         if (typeof tableId !== 'string') {
             throw new Error('Value of tableId is unacceptable.');
         }
+        if (typeof dropdownId !== 'string') {
+            throw new Error('Value of dropdownId is unacceptable.');
+        }
+
         this.#tableId = tableId;
         this.#dropdownId = dropdownId;
         this.#products = [];
@@ -48,8 +52,7 @@ class Manipulator {
     }
 
     #GetProductsByCat(cat) {
-        return this.#products
-            .filter(val => val.type === cat);
+        return this.#products.filter(val => val.type === cat);
     }
 
     Insert(product) {
@@ -58,7 +61,7 @@ class Manipulator {
         }
 
         if (this.#products.length === 0) {
-            this.#table.innerHTML = '';
+            this.#Empty('');
         }
 
         product = product.clone();
@@ -90,33 +93,33 @@ class Manipulator {
         }
 
         if (key === '') {
-            for (const product of this.#products) {
-                this.#VisualInsertion(product);
-            }
+            this.#BulkVisualInsertion(this.products);
         }
         else {
             let result = [];
             key = key.trim().toLowerCase();
 
             for (const product of this.#products) {
-                for (const field of product) {
-                    console.log(field);
+                if (product.searchString.includes(key)) {
+                    result.push(product);
                 }
             }
-            // this.#BulkVisualInsertion(result);
+            console.log(result);
+            this.#BulkVisualInsertion(result);
         }
     }
 
-    SelectCategory(cat) {
+    SelectCategory(cat = 'All') {
         let arr = cat === 'All'
             ? this.products
             : this.#GetProductsByCat(cat);
 
-        this.#table.innerHTML = '';
+        this.#Empty('');
         this.#BulkVisualInsertion(arr);
     }
 
     #BulkVisualInsertion(arr) {
+        this.#Empty('');
         for (const product of arr) {
             this.#VisualInsertion(product);
         }
@@ -153,9 +156,7 @@ class Manipulator {
         let btn = document.createElement('button');
         btn.type = 'button';
         btn.classList.add('btn', 'btn-light');
-        btn.innerHTML = `
-            <img class="m-1px" src="./images/x-mark-24.png" alt="Cross">
-        `;
+        btn.innerHTML = `<img class="m-1px" src="./images/x-mark-24.png" alt="Cross">`;
         btn.onclick = () => {
             let cat = value.type;
             this.Delete(value.id);
@@ -164,12 +165,17 @@ class Manipulator {
                 this.SelectCategory('All');
                 this.#dropdown.innerHTML = this.GetCategoriesAsOptions();
             }
+
+            if (this.products.length === 0) {
+                this.#Empty();
+            }
         };
         return btn;
     }
 
-    #Empty() {
-        this.#table.innerHTML = Manipulator.#empty;
+    #Empty(cnt = null) {
+        cnt = cnt === null ? Manipulator.#empty : cnt;
+        this.#table.innerHTML = cnt;
     }
 }
 
@@ -270,6 +276,10 @@ class Product {
         this.#quantity = value;
     }
 
+    get searchString() {
+        let str = this.name + this.price.toString() + this.type + this.quantity.toString() + this.date.toLocaleDateString() + this.description;
+        return str.toLowerCase();
+    }
 
     clone() {
         return new Product(this.name, this.price, this.type, this.quantity, this.date, this.description);

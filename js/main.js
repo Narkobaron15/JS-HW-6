@@ -1,6 +1,6 @@
 const dropdown = document.getElementById('typeDropdown');
 const tableManager = new Manipulator('data', dropdown.id);
-let product = new Product();
+const product = new Product();
 
 const buttons = {
     clearBtn: document.getElementById('clearBtn'),
@@ -26,26 +26,7 @@ const iterateFields = (fields, fn) => {
         fn(fields[key]);
     }
 }
-
-buttons.clearBtn.onclick = () => {
-    specialFields.searchField.value = '';
-};
-buttons.confirmButton.onclick = () => {
-    try {
-        tableManager.Insert(product);
-        iterateFields(fields, field => field.value = '');
-    } catch (error) {
-        printError(error.message);
-    }
-};
-specialFields.searchField.oninput = () => {
-    tableManager.findAndPublish(specialFields.searchField.value);
-};
-dropdown.onchange = () => {
-    tableManager.SelectCategory(dropdown.value);
-}
-
-let fieldOninput = () => {
+const fieldOninput = () => {
     printError();
     try {
         product.name = fields.nameField.value;
@@ -61,4 +42,33 @@ let fieldOninput = () => {
         buttons.confirmButton.disabled = true;
     }
 };
+
 iterateFields(fields, field => field.oninput = fieldOninput);
+buttons.clearBtn.onclick = () => {
+    specialFields.searchField.value = '';
+    specialFields.searchField.oninput();
+};
+buttons.confirmButton.onclick = () => {
+    try {
+        tableManager.Insert(product);
+        tableManager.SelectCategory();
+        iterateFields(fields, field => field.value = '');
+    } catch (error) {
+        printError(error.message);
+    }
+};
+specialFields.searchField.oninput = () => {
+    tableManager.findAndPublish(specialFields.searchField.value);
+};
+resetBtn.onclick = () => {
+    dropdown.value = 'All';
+    dropdown.onchange();
+};
+dropdown.onchange = () => {
+    tableManager.SelectCategory(dropdown.value);
+}
+
+
+tableManager.Insert(new Product('Product 1', 334, 'Cat 2', 1, '1/2/2023', 'Iste eius dolorum, commodi sequi architecto dicta natus'));
+tableManager.Insert(new Product('Product 2', 334, 'Cat 1', 4));
+tableManager.Insert(new Product('Product 3', 334, 'Cat 1', 5));
