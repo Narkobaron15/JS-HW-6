@@ -6,30 +6,134 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>Document</title>
+    <link rel="stylesheet" href="./styles/style.css">
 </head>
 
-<body>
-    <div class="container-xl my-2">
-        <div class="mt-4 my-3">
-            <!-- Datalist -->
-            <input class="w-50" id="searchInput" type="text" placeholder="Try to type in...">
-            <button id="ClearBtn" class="text-danger">X</button>
+<body class="container-xl my-2">
+    <nav>
+        <div class="d-flex align-items-center mt-4 my-3">
+            <datalist id="searchHints"></datalist>
+            <label for="searchInput" class="me-3">Search:</label>
+            <input class="flex-grow-1 px-2 py-1 rounded" list="searchHints" id="searchInput" type="text" placeholder="Try to type in...">
+            <button id="clearBtn" class="ms-3 py-1 px-2 btn btn-light">
+                <img class="m-1px" src="./images/x-mark-24.png" alt="Cross">
+            </button>
         </div>
-        <hr>
-        <table class="table table-striped">
-            <thead class="bg-dark text-white-50">
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Description</th>
-                </tr>
-            </thead>
-            <tbody id="data"></tbody>
-        </table>
-        <hr>
+        <div class="d-flex my-3 align-items-center">
+            <label for="typeDropdown" class="me-3">Type:</label>
+            <select name="typeDropdown" id="typeDropdown" class="ms-3 px-2 py-1">
+                <option value="All">All</option>
+            </select>
+            <button id="resetBtn" class="ms-3 py-1 px-2 btn btn-light">
+                <img class="m-1px" src="./images/x-mark-24.png" alt="Cross">
+            </button>
+        </div>
+    </nav>
+    <hr>
+    <table class="table table-striped my-4">
+        <thead class="bg-dark text-white-50">
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="data"></tbody>
+    </table>
+    <hr>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form class="w-100">
+                    <div class="form-group row my-2">
+                        <label for="productName" class="col-sm-5 col-form-label">Product Name:</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="productName" name="productName" placeholder="Try typing in name..."
+                                class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row my-2">
+                        <label for="productPrice" class="col-sm-5 col-form-label">Product Price:</label>
+                        <div class="col-sm-7">
+                            <input type="number" id="productPrice" name="productPrice"
+                                placeholder="Try typing in price..." class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row my-2">
+                        <label for="productType" class="col-sm-5 col-form-label">Product Type:</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="productType" name="productType" placeholder="Try typing in type..."
+                                class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row my-2">
+                        <label for="productQty" class="col-sm-5 col-form-label">Product Quantity:</label>
+                        <div class="col-sm-7">
+                            <input type="number" step="1" id="productQty" name="productQty"
+                                placeholder="Try typing in quantity..." class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row my-2">
+                        <label for="productDate" class="col-sm-5 col-form-label">Product Date:</label>
+                        <div class="col-sm-7">
+                            <input type="date" id="productDate" name="productDate" placeholder="Try typing in date..."
+                                class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group row my-2">
+                        <label for="productDescription" class="col-sm-5 col-form-label">Product Description:</label>
+                        <div class="col-sm-7">
+                            <textarea id="productDescription" name="productDescription"
+                                placeholder="Try typing in description..." class="form-control"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group row my-2">
+                        <p class="text-center" id="ErrorCaption"></p>
+                    </div>
+
+                    <div class="form-group row mt-4">
+                        <div class="col-sm-12 text-center">
+                            <button disabled id="confirmButton" type="button" class="btn btn-dark">Confirm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+    <footer>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <p class="text-center">
+            when tailwind <br><br><br>
+            ⠸⣷⣦⠤⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⣤⠀⠀⠀<br>
+            ⠀⠙⣿⡄⠈⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠔⠊⠉⣿⡿⠁⠀⠀⠀<br>
+            ⠀⠀⠈⠣⡀⠀⠀⠑⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⠊⠁⠀⠀⣰⠟⠀⠀⠀⣀⣀<br>
+            ⠀⠀⠀⠀⠈⠢⣄⠀⡈⠒⠊⠉⠁⠀⠈⠉⠑⠚⠀⠀⣀⠔⢊⣠⠤⠒⠊⠉⠀⡜<br>
+            ⠀⠀⠀⠀⠀⠀⠀⡽⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠩⡔⠊⠁⠀⠀⠀⠀⠀⠀⠇<br>
+            ⠀⠀⠀⠀⠀⠀⠀⡇⢠⡤⢄⠀⠀⠀⠀⠀⡠⢤⣄⠀⡇⠀⠀⠀⠀⠀⠀⠀⢰⠀<br>
+            ⠀⠀⠀⠀⠀⠀⢀⠇⠹⠿⠟⠀⠀⠤⠀⠀⠻⠿⠟⠀⣇⠀⠀⡀⠠⠄⠒⠊⠁⠀<br>
+            ⠀⠀⠀⠀⠀⠀⢸⣿⣿⡆⠀⠰⠤⠖⠦⠴⠀⢀⣶⣿⣿⠀⠙⢄⠀⠀⠀⠀⠀⠀<br>
+            ⠀⠀⠀⠀⠀⠀⠀⢻⣿⠃⠀⠀⠀⠀⠀⠀⠀⠈⠿⡿⠛⢄⠀⠀⠱⣄⠀⠀⠀⠀<br>
+            ⠀⠀⠀⠀⠀⠀⠀⢸⠈⠓⠦⠀⣀⣀⣀⠀⡠⠴⠊⠹⡞⣁⠤⠒⠉⠀⠀⠀⠀⠀<br>
+            ⠀⠀⠀⠀⠀⠀⣠⠃⠀⠀⠀⠀⡌⠉⠉⡤⠀⠀⠀⠀⢻⠿⠆⠀⠀⠀⠀⠀⠀⠀<br>
+            ⠀⠀⠀⠀⠀⠰⠁⡀⠀⠀⠀⠀⢸⠀⢰⠃⠀⠀⠀⢠⠀⢣⠀⠀⠀⠀⠀⠀⠀⠀<br>
+            ⠀⠀⠀⢶⣗⠧⡀⢳⠀⠀⠀⠀⢸⣀⣸⠀⠀⠀⢀⡜⠀⣸⢤⣶⠀⠀⠀⠀⠀⠀<br>
+            ⠀⠀⠀⠈⠻⣿⣦⣈⣧⡀⠀⠀⢸⣿⣿⠀⠀⢀⣼⡀⣨⣿⡿⠁⠀⠀⠀⠀⠀⠀<br>
+            ⠈⠻⠿⠿⠓⠄⠤⠘⠉⠙⠤⢀⠾⠿⣿⠟⠋
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br><br>
+            ¿
+        </p>
+    </footer>
 
     <script src="./js/class.js"></script>
     <script src="./js/main.js"></script>

@@ -1,0 +1,18 @@
+.m-1px {
+    margin: 1px;
+}
+
+textarea {
+    resize: vertical;
+    max-height: 300px;
+    overflow: auto;
+}
+
+img {
+    height: 20px;
+}
+
+tr,
+th {
+    vertical-align: text-top;
+}
