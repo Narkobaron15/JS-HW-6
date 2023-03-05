@@ -3,13 +3,15 @@ class Manipulator {
     static #count = 0;
 
     #tableId;
+    #dropdownId;
     #products;
 
-    constructor(tableId) {
+    constructor(tableId, dropdownId) {
         if (typeof tableId !== 'string') {
             throw new Error('Value of tableId is unacceptable.');
         }
         this.#tableId = tableId;
+        this.#dropdownId = dropdownId;
         this.#products = [];
 
         this.#Empty();
@@ -19,12 +21,35 @@ class Manipulator {
         return document.getElementById(this.#tableId);
     }
 
+    get #dropdown() {
+        return document.getElementById(this.#dropdownId);
+    }
+
     get #tablerows() {
         return Array.from(this.#table.rows);
     }
 
     get products() {
         return this.#products;
+    }
+
+    get categories() {
+        return this.#products
+            .flatMap(prod => prod.type)
+            .filter((value, index, array) => array.indexOf(value) === index);
+    }
+
+    GetCategoriesAsOptions() {
+        let catStr = '<option value="All">All</option>';
+        for (const cat of this.categories) {
+            catStr += `<option value="${cat}">${cat}</option>`;
+        }
+        return catStr;
+    }
+
+    #GetProductsByCat(cat) {
+        return this.#products
+            .filter(val => val.type === cat);
     }
 
     Insert(product) {
@@ -37,10 +62,11 @@ class Manipulator {
         }
 
         product = product.clone();
-
-        this.#products.push(product);
         product.id = ++Manipulator.#count;
-        this.#VisualInsertion(product)
+        this.#products.push(product);
+
+        this.#VisualInsertion(product);
+        this.#dropdown.innerHTML = tableManager.GetCategoriesAsOptions();
     }
 
     Delete(id) {
@@ -79,6 +105,15 @@ class Manipulator {
             }
             // this.#BulkVisualInsertion(result);
         }
+    }
+
+    SelectCategory(cat) {
+        let arr = cat === 'All'
+            ? this.products
+            : this.#GetProductsByCat(cat);
+
+        this.#table.innerHTML = '';
+        this.#BulkVisualInsertion(arr);
     }
 
     #BulkVisualInsertion(arr) {
@@ -121,7 +156,15 @@ class Manipulator {
         btn.innerHTML = `
             <img class="m-1px" src="./images/x-mark-24.png" alt="Cross">
         `;
-        btn.onclick = () => this.Delete(value.id)
+        btn.onclick = () => {
+            let cat = value.type;
+            this.Delete(value.id);
+
+            if (this.categories.find(el => el === cat) === undefined) {
+                this.SelectCategory('All');
+                this.#dropdown.innerHTML = this.GetCategoriesAsOptions();
+            }
+        };
         return btn;
     }
 

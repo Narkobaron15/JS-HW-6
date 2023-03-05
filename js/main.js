@@ -1,4 +1,5 @@
-const tableManager = new Manipulator('data');
+const dropdown = document.getElementById('typeDropdown');
+const tableManager = new Manipulator('data', dropdown.id);
 let product = new Product();
 
 const buttons = {
@@ -18,7 +19,6 @@ const specialFields = {
     errorField: document.getElementById('ErrorCaption'),
     searchField: document.getElementById('searchInput'),
 };
-const dropdown = document.getElementById('typeDropdown');
 
 const printError = (msg = '') => specialFields.errorField.innerHTML = msg;
 const iterateFields = (fields, fn) => {
@@ -41,6 +41,9 @@ buttons.confirmButton.onclick = () => {
 specialFields.searchField.oninput = () => {
     tableManager.findAndPublish(specialFields.searchField.value);
 };
+dropdown.onchange = () => {
+    tableManager.SelectCategory(dropdown.value);
+}
 
 let fieldOninput = () => {
     printError();
