@@ -12,9 +12,9 @@
 <body class="container-xl my-2">
     <nav>
         <div class="d-flex align-items-center mt-4 my-3">
-            <!-- Datalist -->
+            <datalist id="searchHints"></datalist>
             <label for="searchInput" class="me-3">Search:</label>
-            <input class="flex-grow-1 px-2 py-1 rounded" id="searchInput" type="text" placeholder="Try to type in...">
+            <input class="flex-grow-1 px-2 py-1 rounded" list="searchHints" id="searchInput" type="text" placeholder="Try to type in...">
             <button id="clearBtn" class="ms-3 py-1 px-2 btn btn-light">
                 <img class="m-1px" src="./images/x-mark-24.png" alt="Cross">
             </button>
@@ -134,7 +134,7 @@
             ¿
         </p>
     </footer>
-    
+
     <script src="./js/class.js"></script>
     <script src="./js/main.js"></script>
 </body>

@@ -1,6 +1,8 @@
+const product = new Product();
+
 const dropdown = document.getElementById('typeDropdown');
 const tableManager = new Manipulator('data', dropdown.id);
-const product = new Product();
+const hints = document.getElementById('searchHints');
 
 const buttons = {
     clearBtn: document.getElementById('clearBtn'),
@@ -25,7 +27,7 @@ const iterateFields = (fields, fn) => {
     for (const key in fields) {
         fn(fields[key]);
     }
-}
+};
 const fieldOninput = () => {
     printError();
     try {
@@ -42,7 +44,6 @@ const fieldOninput = () => {
         buttons.confirmButton.disabled = true;
     }
 };
-
 iterateFields(fields, field => field.oninput = fieldOninput);
 buttons.clearBtn.onclick = () => {
     specialFields.searchField.value = '';
@@ -51,14 +52,36 @@ buttons.clearBtn.onclick = () => {
 buttons.confirmButton.onclick = () => {
     try {
         tableManager.Insert(product);
-        tableManager.SelectCategory();
         iterateFields(fields, field => field.value = '');
+        fieldOninput();
     } catch (error) {
         printError(error.message);
     }
 };
 specialFields.searchField.oninput = () => {
-    tableManager.findAndPublish(specialFields.searchField.value);
+    const val = specialFields.searchField.value;
+    const published = tableManager.findAndPublish(val);
+    let hintsarr = [];
+
+    if (published !== null) {
+        for (const prod of published) {
+            const props = [
+                prod.name, prod.price.toString(), prod.type,
+                prod.quantity.toString(), prod.date.toLocaleDateString(), prod.description
+            ];
+            for (const prop of props) {
+                if (prop.trim().toLowerCase().includes(val.trim().toLowerCase())) {
+                    hintsarr.push(prop);
+                }
+            }
+        }
+    }
+
+    hints.innerHTML = '';
+    hintsarr = hintsarr.filter(Manipulator.uniqueFilter)
+        .filter(x => x.trim().toLowerCase() !== val.trim().toLowerCase());
+    if (hintsarr?.length === 1) return;
+    hintsarr.forEach(x => hints.innerHTML += `<option value="${x}">`);
 };
 resetBtn.onclick = () => {
     dropdown.value = 'All';
@@ -66,8 +89,7 @@ resetBtn.onclick = () => {
 };
 dropdown.onchange = () => {
     tableManager.SelectCategory(dropdown.value);
-}
-
+};
 
 tableManager.Insert(new Product('Product 1', 334, 'Cat 2', 1, '1/2/2023', 'Iste eius dolorum, commodi sequi architecto dicta natus'));
 tableManager.Insert(new Product('Product 2', 334, 'Cat 1', 4));

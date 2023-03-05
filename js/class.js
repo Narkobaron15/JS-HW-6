@@ -40,7 +40,11 @@ class Manipulator {
     get categories() {
         return this.#products
             .flatMap(prod => prod.type)
-            .filter((value, index, array) => array.indexOf(value) === index);
+            .filter(Manipulator.uniqueFilter);
+    }
+
+    static get uniqueFilter() {
+        return (value, index, array) => array.indexOf(value) === index;
     }
 
     GetCategoriesAsOptions() {
@@ -68,8 +72,9 @@ class Manipulator {
         product.id = ++Manipulator.#count;
         this.#products.push(product);
 
-        this.#VisualInsertion(product);
+        // this.#VisualInsertion(product);
         this.#dropdown.innerHTML = tableManager.GetCategoriesAsOptions();
+        this.SelectCategory();
     }
 
     Delete(id) {
@@ -104,9 +109,12 @@ class Manipulator {
                     result.push(product);
                 }
             }
-            console.log(result);
             this.#BulkVisualInsertion(result);
+
+            if (key.length > 1) return result;
         }
+        
+        return null;
     }
 
     SelectCategory(cat = 'All') {
